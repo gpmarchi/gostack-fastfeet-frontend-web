@@ -5,9 +5,12 @@ import Routes from './routes';
 
 import './config/ReactotronConfig';
 
+import GlobalStyle from './styles/global';
+
 function App() {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Routes />
     </BrowserRouter>
   );
