@@ -18,11 +18,15 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/parcels" />;
+    const page = localStorage.getItem('fastfeet:activePage');
+    return <Redirect to={page || '/parcels'} />;
   }
 
   if (signed) {
     const Layout = DashboardLayout;
+
+    const { path } = rest;
+    localStorage.setItem('fastfeet:activePage', path);
 
     return (
       <Route
