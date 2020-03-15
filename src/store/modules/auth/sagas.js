@@ -15,7 +15,7 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(user, token));
 
-    history.push('/dashboard');
+    history.push('/parcels');
   } catch (error) {
     yield put(signInFailure());
 

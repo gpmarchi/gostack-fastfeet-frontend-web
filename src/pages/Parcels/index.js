@@ -2,10 +2,10 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-export default function Recipient() {
+export default function Parcels() {
   return (
     <div>
-      <h1>Recipient</h1>
+      <h1>Parcels</h1>
     </div>
   );
 }
