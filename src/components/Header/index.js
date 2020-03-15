@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Container, Content, Navigation, NavLink, Logout } from './styles';
+import { Container, Navigation, NavLink, Logout } from './styles';
 
 import logo from '../../assets/logo.svg';
 
@@ -47,27 +47,25 @@ export default function Header() {
 
   return (
     <Container>
-      <Content>
-        <Navigation>
-          <img src={logo} alt="FastFeet" />
-          <nav>
-            {pages.map(page => (
-              <NavLink
-                key={page.name}
-                to={page.to}
-                active={String(activePage === page.to)}
-                onClick={() => handlePageSelect(page.to)}
-              >
-                {page.name}
-              </NavLink>
-            ))}
-          </nav>
-        </Navigation>
-        <Logout>
-          <span>{username}</span>
-          <button type="button">sair do sistema</button>
-        </Logout>
-      </Content>
+      <Navigation>
+        <img src={logo} alt="FastFeet" />
+        <nav>
+          {pages.map(page => (
+            <NavLink
+              key={page.name}
+              to={page.to}
+              active={String(activePage === page.to)}
+              onClick={() => handlePageSelect(page.to)}
+            >
+              {page.name}
+            </NavLink>
+          ))}
+        </nav>
+      </Navigation>
+      <Logout>
+        <span>{username}</span>
+        <button type="button">sair do sistema</button>
+      </Logout>
     </Container>
   );
 }
