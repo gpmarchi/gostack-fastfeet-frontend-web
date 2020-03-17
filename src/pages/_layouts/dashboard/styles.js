@@ -48,7 +48,7 @@ export const Wrapper = styled.div`
   table {
     min-width: 1200px;
     margin: 0 auto 50px;
-
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0 20px;
 
@@ -75,6 +75,11 @@ export const Wrapper = styled.div`
         padding: 10px 20px;
         font-size: 16px;
         color: #666;
+
+        max-width: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         div {
           display: flex;
