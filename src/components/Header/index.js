@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { signOut } from '../../store/modules/auth/actions';
 
 import { Container, Navigation, NavLink, Logout } from './styles';
 
@@ -25,6 +27,8 @@ const pages = [
 ];
 
 export default function Header() {
+  const dispatch = useDispatch();
+
   const [activePage, setActivePage] = useState('/parcels');
   const username = useSelector(state => state.auth.user.name);
 
@@ -43,6 +47,10 @@ export default function Header() {
   function handlePageSelect(page) {
     setActivePage(page);
     localStorage.setItem('fastfeet:activePage', page);
+  }
+
+  function handleSignOut() {
+    dispatch(signOut());
   }
 
   return (
@@ -64,7 +72,9 @@ export default function Header() {
       </Navigation>
       <Logout>
         <span>{username}</span>
-        <button type="button">sair do sistema</button>
+        <button type="button" onClick={handleSignOut}>
+          sair do sistema
+        </button>
       </Logout>
     </Container>
   );
