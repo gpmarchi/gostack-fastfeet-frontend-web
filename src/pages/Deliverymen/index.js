@@ -1,11 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
-// import { Container } from './styles';
+import api from '../../services/api';
 
-export default function Deliverymen() {
+export default function Deliveryman() {
+  const [deliverymen, setDeliverymen] = useState([]);
+
+  useEffect(() => {
+    async function loadDeliverymen() {
+      const response = await api.get('/deliverymen');
+
+      setDeliverymen(response.data);
+    }
+
+    loadDeliverymen();
+  }, []);
+
   return (
-    <div>
-      <h1>Deliverymen</h1>
-    </div>
+    <>
+      <header>
+        <h1>Gerenciando entregadores</h1>
+        <div>
+          <input type="text" placeholder="Buscar por entregadores" />
+          <button type="button">
+            <MdAdd size={23} /> CADASTRAR
+          </button>
+        </div>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Foto</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {deliverymen.map(deliveryman => (
+            <tr>
+              <td>#{deliveryman.id}</td>
+              <td>
+                <div>
+                  <img
+                    src={
+                      deliveryman.avatar
+                        ? deliveryman.avatar.url
+                        : 'https://api.adorable.io/avatars/35/abott@adorable.png'
+                    }
+                    alt={deliveryman.name}
+                  />
+                </div>
+              </td>
+              <td>{deliveryman.name}</td>
+              <td>{deliveryman.email}</td>
+              <td>
+                <button type="button">
+                  <MdMoreHoriz size={25} color="#C6C6C6" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }

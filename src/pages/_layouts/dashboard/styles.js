@@ -47,7 +47,7 @@ export const Wrapper = styled.div`
 
   table {
     min-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 50px;
 
     border-collapse: separate;
     border-spacing: 0 20px;
@@ -83,6 +83,7 @@ export const Wrapper = styled.div`
           img {
             height: 35px;
             width: 35px;
+            border: 1px solid #ddd;
             border-radius: 50%;
             margin-right: 5px;
           }
