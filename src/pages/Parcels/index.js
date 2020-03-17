@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdSearch, MdAdd, MdMoreHoriz } from 'react-icons/md';
+
+import api from '../../services/api';
+import { parcelStatus } from '../../util/helper';
 
 import { StatusPill } from './styles';
 
 export default function Parcels() {
+  const [parcels, setParcels] = useState([]);
+
+  useEffect(() => {
+    async function loadParcels() {
+      const response = await api.get('/parcels');
+
+      const data = response.data.map(parcel => ({
+        ...parcel,
+        status: parcelStatus(parcel),
+      }));
+
+      console.tron.log(data);
+
+      setParcels(data);
+    }
+
+    loadParcels();
+  }, []);
+
   return (
     <>
       <header>
@@ -28,78 +50,38 @@ export default function Parcels() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>Nome do destinatátio</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/35/abott@adorable.png"
-                  alt=""
-                />
-                Nome do entregador
-              </div>
-            </td>
-            <td>São Paulo</td>
-            <td>São Paulo</td>
-            <td>
-              <StatusPill>
-                <div />
-                CANCELADA
-              </StatusPill>
-            </td>
-            <td>
-              <MdMoreHoriz size={25} color="#C6C6C6" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>Nome do destinatátio</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/35/abott@adorable.png"
-                  alt=""
-                />
-                Nome do entregador
-              </div>
-            </td>
-            <td>São Paulo</td>
-            <td>São Paulo</td>
-            <td>
-              <StatusPill>
-                <div />
-                ENTREGUE
-              </StatusPill>
-            </td>
-            <td>
-              <MdMoreHoriz size={25} color="#C6C6C6" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>Nome do destinatátio</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/35/abott@adorable.png"
-                  alt=""
-                />
-                Nome do entregador
-              </div>
-            </td>
-            <td>São Paulo</td>
-            <td>São Paulo</td>
-            <td>
-              <StatusPill>
-                <div />
-                RETIRADA
-              </StatusPill>
-            </td>
-            <td>
-              <MdMoreHoriz size={25} color="#C6C6C6" />
-            </td>
-          </tr>
+          {parcels.map(parcel => (
+            <tr>
+              <td>#{parcel.id}</td>
+              <td>{parcel.recipient.name}</td>
+              <td>
+                <div>
+                  <img
+                    src={
+                      parcel.deliveryman.url
+                        ? parcel.deliveryman.url
+                        : 'https://api.adorable.io/avatars/35/abott@adorable.png'
+                    }
+                    alt={parcel.deliveryman.name}
+                  />
+                  {parcel.deliveryman.name}
+                </div>
+              </td>
+              <td>{parcel.recipient.city}</td>
+              <td>{parcel.recipient.state}</td>
+              <td>
+                <StatusPill status={parcel.status.id}>
+                  <div />
+                  {parcel.status.name}
+                </StatusPill>
+              </td>
+              <td>
+                <button type="button">
+                  <MdMoreHoriz size={25} color="#C6C6C6" />
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>
