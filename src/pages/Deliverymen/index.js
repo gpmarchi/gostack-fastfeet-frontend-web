@@ -3,7 +3,7 @@ import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
 import api from '../../services/api';
 
-export default function Deliveryman() {
+export default function Deliverymen() {
   const [deliverymen, setDeliverymen] = useState([]);
 
   useEffect(() => {
