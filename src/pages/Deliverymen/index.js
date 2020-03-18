@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 
 import api from '../../services/api';
 
-export default function Deliverymen() {
+export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
 
   useEffect(() => {
@@ -16,13 +17,17 @@ export default function Deliverymen() {
     loadDeliverymen();
   }, []);
 
+  function handleAddDeliveryman() {
+    history.push('/deliveryman');
+  }
+
   return (
     <>
       <header>
         <h1>Gerenciando entregadores</h1>
         <div>
           <input type="search" placeholder="Buscar por entregadores" />
-          <button type="button">
+          <button type="button" onClick={handleAddDeliveryman}>
             <MdAdd size={23} /> CADASTRAR
           </button>
         </div>
@@ -67,3 +72,9 @@ export default function Deliverymen() {
     </>
   );
 }
+
+Deliverymen.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};

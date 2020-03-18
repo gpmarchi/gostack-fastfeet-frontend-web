@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  height: 100%;
+  min-height: 100%;
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -91,7 +91,7 @@ export const Wrapper = styled.div`
           img {
             height: 35px;
             width: 35px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(220, 220, 220, 0.3);
             border-radius: 50%;
             margin-right: 5px;
           }
