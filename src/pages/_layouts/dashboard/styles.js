@@ -8,12 +8,28 @@ export const Wrapper = styled.div`
 
   header {
     min-width: 1200px;
-    margin: 34px auto 20px;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
 
     h1 {
       font-weight: bold;
       font-size: 24px;
       color: #444;
+      margin-top: 34px;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 0;
+      border-radius: 4px;
+      background: #7d40e7;
+      padding: 9px 20px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
     }
 
     div {
@@ -28,19 +44,6 @@ export const Wrapper = styled.div`
         border: 1px solid #ddd;
         color: #999;
         padding: 10px 20px;
-      }
-
-      button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 0;
-        border-radius: 4px;
-        background: #7d40e7;
-        padding: 9px 20px;
-        color: #fff;
-        font-size: 14px;
-        font-weight: bold;
       }
     }
   }
