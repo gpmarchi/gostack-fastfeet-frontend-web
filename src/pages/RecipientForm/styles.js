@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-export const Header = styled.header``;
-
 export const Content = styled.table`
   table-layout: fixed;
   border-collapse: separate;

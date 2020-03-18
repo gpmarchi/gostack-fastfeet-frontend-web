@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import api from '../../services/api';
 
-import { Header, Content } from './styles';
+import { Content } from './styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -18,7 +18,7 @@ const schema = Yup.object().shape({
   zipcode: Yup.string().required('O cep é obrigatório'),
 });
 
-export default function EditRecipient({ history }) {
+export default function RecipientForm({ history }) {
   function handleBack() {
     history.push('/recipients');
   }
@@ -30,7 +30,7 @@ export default function EditRecipient({ history }) {
 
   return (
     <Form schema={schema} onSubmit={handleSubmit}>
-      <Header>
+      <header>
         <div>
           <h1>Cadastro de destinatário</h1>
           <aside>
@@ -42,7 +42,7 @@ export default function EditRecipient({ history }) {
             </button>
           </aside>
         </div>
-      </Header>
+      </header>
       <Content>
         <tbody>
           <tr>
@@ -91,7 +91,7 @@ export default function EditRecipient({ history }) {
   );
 }
 
-EditRecipient.propTypes = {
+RecipientForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
