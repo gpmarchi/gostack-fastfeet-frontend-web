@@ -20,6 +20,7 @@ export const Navigation = styled.div`
   }
 
   nav {
+    max-width: 100px;
     margin-left: 30px;
     padding: 10px 30px;
     border-left: 1px solid #ddd;

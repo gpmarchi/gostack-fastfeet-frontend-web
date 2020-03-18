@@ -38,10 +38,6 @@ export default function Header() {
     if (currentPage) {
       setActivePage(currentPage);
     }
-
-    return () => {
-      localStorage.removeItem('fastfeet:activePage');
-    };
   }, []);
 
   function handlePageSelect(page) {
