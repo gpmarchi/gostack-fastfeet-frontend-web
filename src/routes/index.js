@@ -2,13 +2,16 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 
 import Route from './Route';
+
 import SignIn from '../pages/SignIn';
+
 import Parcels from '../pages/Parcels';
 import Deliverymen from '../pages/Deliverymen';
 import Recipients from '../pages/Recipients';
 import Problems from '../pages/Problems';
 
 import RecipientForm from '../pages/RecipientForm';
+import ParcelForm from '../pages/ParcelForm';
 
 export default function Routes() {
   return (
@@ -21,6 +24,7 @@ export default function Routes() {
       <Route path="/problems" component={Problems} isPrivate isList />
 
       <Route path="/recipient" component={RecipientForm} isPrivate />
+      <Route path="/parcel" component={ParcelForm} isPrivate />
     </Switch>
   );
 }

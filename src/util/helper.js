@@ -29,3 +29,8 @@ export const parcelStatus = parcel => {
 
   return {};
 };
+
+export const filterSelect = (inputValue, objectArray) =>
+  objectArray.filter(object =>
+    object.label.toLowerCase().includes(inputValue.toLowerCase())
+  );

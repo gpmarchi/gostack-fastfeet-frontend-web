@@ -22,12 +22,16 @@ export const Wrapper = styled.div`
     }
 
     input + span {
+      display: block;
+      margin-top: 10px;
       color: #de3b3b;
+      font-size: 14px;
+      font-weight: bold;
     }
   }
 
   header {
-    max-width: 900px;
+    min-width: 900px;
 
     button {
       display: flex;

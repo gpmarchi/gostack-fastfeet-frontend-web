@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { MdSearch, MdAdd, MdMoreHoriz } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 import { parcelStatus } from '../../util/helper';
 
 import { StatusPill } from './styles';
 
-export default function Parcels() {
+export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
 
   useEffect(() => {
@@ -24,13 +25,17 @@ export default function Parcels() {
     loadParcels();
   }, []);
 
+  function handleAddParcel() {
+    history.push('/parcel');
+  }
+
   return (
     <>
       <header>
         <h1>Gerenciando encomendas</h1>
         <div>
           <input type="search" placeholder="Buscar por encomendas" />
-          <button type="button">
+          <button type="button" onClick={handleAddParcel}>
             <MdAdd size={23} /> CADASTRAR
           </button>
         </div>
@@ -85,3 +90,9 @@ export default function Parcels() {
     </>
   );
 }
+
+Parcels.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
