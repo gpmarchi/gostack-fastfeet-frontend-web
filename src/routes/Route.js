@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import DashboardLayout from '../pages/_layouts/dashboard';
+import FormLayout from '../pages/_layouts/form';
 
 export default function RouteWrapper({
   component: Component,
   isPrivate,
+  isList,
   ...rest
 }) {
   const signed = useSelector(state => state.auth.signed);
@@ -23,7 +25,7 @@ export default function RouteWrapper({
   }
 
   if (signed) {
-    const Layout = DashboardLayout;
+    const Layout = isList ? DashboardLayout : FormLayout;
 
     const { path } = rest;
     localStorage.setItem('fastfeet:activePage', path);
@@ -47,8 +49,10 @@ RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
+  isList: PropTypes.bool,
 };
 
 RouteWrapper.defaultProps = {
   isPrivate: false,
+  isList: false,
 };

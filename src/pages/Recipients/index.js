@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 
-export default function Recipients() {
+export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
 
   useEffect(() => {
@@ -21,13 +22,17 @@ export default function Recipients() {
     loadRecipients();
   }, []);
 
+  function handleAddRecipient() {
+    history.push('/recipient');
+  }
+
   return (
     <>
       <header>
         <h1>Gerenciando destinatários</h1>
         <div>
-          <input type="text" placeholder="Buscar por destinatários" />
-          <button type="button">
+          <input type="search" placeholder="Buscar por destinatários" />
+          <button type="button" onClick={handleAddRecipient}>
             <MdAdd size={23} /> CADASTRAR
           </button>
         </div>
@@ -43,7 +48,7 @@ export default function Recipients() {
         </thead>
         <tbody>
           {recipients.map(recipient => (
-            <tr>
+            <tr key={recipient.id}>
               <td>#{recipient.id}</td>
               <td>{recipient.name}</td>
               <td>{recipient.address}</td>
@@ -59,3 +64,9 @@ export default function Recipients() {
     </>
   );
 }
+
+Recipients.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
