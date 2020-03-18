@@ -3,7 +3,7 @@ import { MdMoreHoriz } from 'react-icons/md';
 
 import api from '../../services/api';
 
-export default function Recipients() {
+export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Recipients() {
         </thead>
         <tbody>
           {deliveryProblems.map(problem => (
-            <tr>
+            <tr key={problem.id}>
               <td>#{problem.parcel_id}</td>
               <td>{problem.description}</td>
               <td>

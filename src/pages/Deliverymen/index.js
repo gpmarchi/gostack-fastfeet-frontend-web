@@ -21,7 +21,7 @@ export default function Deliverymen() {
       <header>
         <h1>Gerenciando entregadores</h1>
         <div>
-          <input type="text" placeholder="Buscar por entregadores" />
+          <input type="search" placeholder="Buscar por entregadores" />
           <button type="button">
             <MdAdd size={23} /> CADASTRAR
           </button>
@@ -39,7 +39,7 @@ export default function Deliverymen() {
         </thead>
         <tbody>
           {deliverymen.map(deliveryman => (
-            <tr>
+            <tr key={deliveryman.id}>
               <td>#{deliveryman.id}</td>
               <td>
                 <div>

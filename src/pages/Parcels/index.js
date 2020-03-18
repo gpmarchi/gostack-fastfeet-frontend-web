@@ -18,8 +18,6 @@ export default function Parcels() {
         status: parcelStatus(parcel),
       }));
 
-      console.tron.log(data);
-
       setParcels(data);
     }
 
@@ -31,7 +29,7 @@ export default function Parcels() {
       <header>
         <h1>Gerenciando encomendas</h1>
         <div>
-          <input type="text" placeholder="Buscar por encomendas" />
+          <input type="search" placeholder="Buscar por encomendas" />
           <button type="button">
             <MdAdd size={23} /> CADASTRAR
           </button>
@@ -51,7 +49,7 @@ export default function Parcels() {
         </thead>
         <tbody>
           {parcels.map(parcel => (
-            <tr>
+            <tr key={parcel.id}>
               <td>#{parcel.id}</td>
               <td>{parcel.recipient.name}</td>
               <td>
