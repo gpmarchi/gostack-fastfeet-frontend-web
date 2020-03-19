@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { MdMoreHoriz } from 'react-icons/md';
+
+import Actions from '../../components/Actions';
 
 import api from '../../services/api';
+
+const actions = ['Visualizar', 'Cancelar Encomenda'];
 
 export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
@@ -35,9 +38,7 @@ export default function Problems() {
               <td>#{problem.parcel_id}</td>
               <td>{problem.description}</td>
               <td>
-                <button type="button">
-                  <MdMoreHoriz size={25} color="#C6C6C6" />
-                </button>
+                <Actions actions={actions} target="" object={problem} />
               </td>
             </tr>
           ))}

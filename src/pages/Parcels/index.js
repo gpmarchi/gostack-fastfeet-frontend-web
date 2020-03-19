@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { MdSearch, MdAdd, MdMoreHoriz } from 'react-icons/md';
+import { MdSearch, MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
 
+import Actions from '../../components/Actions';
 import api from '../../services/api';
 import { parcelStatus } from '../../util/helper';
 
 import { StatusPill } from './styles';
+
+const actions = ['Visualizar', 'Editar', 'Excluir'];
 
 export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
@@ -79,9 +82,7 @@ export default function Parcels({ history }) {
                 </StatusPill>
               </td>
               <td>
-                <button type="button">
-                  <MdMoreHoriz size={25} color="#C6C6C6" />
-                </button>
+                <Actions actions={actions} target="/parcel" object={parcel} />
               </td>
             </tr>
           ))}

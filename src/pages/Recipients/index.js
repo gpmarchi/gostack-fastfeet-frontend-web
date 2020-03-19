@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { MdAdd, MdMoreHoriz } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
 
+import Actions from '../../components/Actions';
+
 import api from '../../services/api';
+
+const actions = ['Editar', 'Excluir'];
 
 export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
@@ -53,9 +57,11 @@ export default function Recipients({ history }) {
               <td>{recipient.name}</td>
               <td>{recipient.address}</td>
               <td>
-                <button type="button">
-                  <MdMoreHoriz size={25} color="#C6C6C6" />
-                </button>
+                <Actions
+                  actions={actions}
+                  target="/recipient"
+                  object={recipient}
+                />
               </td>
             </tr>
           ))}

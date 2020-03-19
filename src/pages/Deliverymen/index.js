@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { MdAdd, MdMoreHoriz } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
+
+import Actions from '../../components/Actions';
 
 import api from '../../services/api';
+
+const actions = ['Editar', 'Excluir'];
 
 export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
@@ -61,9 +65,11 @@ export default function Deliverymen({ history }) {
               <td>{deliveryman.name}</td>
               <td>{deliveryman.email}</td>
               <td>
-                <button type="button">
-                  <MdMoreHoriz size={25} color="#C6C6C6" />
-                </button>
+                <Actions
+                  actions={actions}
+                  target="/deliveryman"
+                  object={deliveryman}
+                />
               </td>
             </tr>
           ))}
