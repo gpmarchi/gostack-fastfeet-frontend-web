@@ -30,17 +30,17 @@ export default function ParcelForm({ history }) {
   let parcel;
 
   if (location.state) {
-    const { rawParcel } = location.state;
+    const { object } = location.state;
     parcel = {
-      id: rawParcel.id,
-      product: rawParcel.product,
+      id: object.id,
+      product: object.product,
       recipient: {
-        value: rawParcel.recipient.id,
-        label: rawParcel.recipient.name,
+        value: object.recipient.id,
+        label: object.recipient.name,
       },
       deliveryman: {
-        value: rawParcel.deliveryman.id,
-        label: rawParcel.deliveryman.name,
+        value: object.deliveryman.id,
+        label: object.deliveryman.name,
       },
     };
   }

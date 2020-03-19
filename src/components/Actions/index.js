@@ -20,7 +20,7 @@ export default function Actions({ actions, target, object }) {
   }
 
   function handleEdit() {
-    history.push({ pathname: target, state: { rawParcel: object } });
+    history.push({ pathname: target, state: { object } });
   }
 
   return (
