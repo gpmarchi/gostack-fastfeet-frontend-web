@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { useLocation } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -19,17 +20,25 @@ const schema = Yup.object().shape({
 });
 
 export default function RecipientForm({ history }) {
+  const location = useLocation();
+
+  const { object: recipient } = location.state ? location.state : {};
+
   function handleBack() {
     history.push('/recipients');
   }
 
   async function handleSubmit(data) {
-    await api.post('/recipients', data);
+    if (recipient) {
+      await api.patch(`/recipients/${recipient.id}`, data);
+    } else {
+      await api.post('/recipients', data);
+    }
     history.push('/recipients');
   }
 
   return (
-    <Form schema={schema} onSubmit={handleSubmit}>
+    <Form schema={schema} initialData={recipient} onSubmit={handleSubmit}>
       <header>
         <div>
           <h1>Cadastro de destinatário</h1>
