@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 import { MdImage } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 import api from '../../../services/api';
 
 import { Container } from './styles';
 
-export default function AvatarInput() {
+export default function AvatarInput({ deliveryman }) {
   const { defaultValue, registerField } = useField('avatar');
 
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
@@ -22,7 +23,12 @@ export default function AvatarInput() {
         path: 'dataset.file',
       });
     }
-  }, [ref, registerField]);
+
+    if (deliveryman) {
+      setFile(deliveryman.id);
+      setPreview(deliveryman.url);
+    }
+  }, [ref, registerField, deliveryman]);
 
   async function handleChange(event) {
     const data = new FormData();
@@ -61,3 +67,14 @@ export default function AvatarInput() {
     </Container>
   );
 }
+
+AvatarInput.propTypes = {
+  deliveryman: PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+  }),
+};
+
+AvatarInput.defaultProps = {
+  deliveryman: {},
+};
