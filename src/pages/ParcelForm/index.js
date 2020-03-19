@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { useLocation } from 'react-router-dom';
 
 import api from '../../services/api';
 import { filterSelect } from '../../util/helper';
@@ -24,16 +25,45 @@ const schema = Yup.object().shape({
 });
 
 export default function ParcelForm({ history }) {
+  const location = useLocation();
+
+  let parcel;
+
+  if (location.state) {
+    const { rawParcel } = location.state;
+    parcel = {
+      id: rawParcel.id,
+      product: rawParcel.product,
+      recipient: {
+        value: rawParcel.recipient.id,
+        label: rawParcel.recipient.name,
+      },
+      deliveryman: {
+        value: rawParcel.deliveryman.id,
+        label: rawParcel.deliveryman.name,
+      },
+    };
+  }
+
   function handleBack() {
     history.push('/parcels');
   }
 
   async function handleSubmit({ recipient, deliveryman, product }) {
-    await api.post('/parcels', {
-      recipient_id: recipient.value,
-      deliveryman_id: deliveryman.value,
-      product,
-    });
+    if (parcel) {
+      await api.patch(`/parcels/${parcel.id}`, {
+        recipient_id: recipient.value,
+        deliveryman_id: deliveryman.value,
+        product,
+      });
+    } else {
+      await api.post('/parcels', {
+        recipient_id: recipient.value,
+        deliveryman_id: deliveryman.value,
+        product,
+      });
+    }
+
     history.push('/parcels');
   }
 
@@ -60,7 +90,7 @@ export default function ParcelForm({ history }) {
   }
 
   return (
-    <Form schema={schema} onSubmit={handleSubmit}>
+    <Form schema={schema} initialData={parcel} onSubmit={handleSubmit}>
       <header>
         <div>
           <h1>Cadastro de encomendas</h1>
