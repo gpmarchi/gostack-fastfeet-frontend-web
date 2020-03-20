@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
 
@@ -11,23 +12,29 @@ const actions = ['Editar', 'Excluir'];
 export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
 
+  async function loadRecipients() {
+    const response = await api.get('/recipients');
+
+    const data = response.data.map(recipient => ({
+      ...recipient,
+      address: `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`,
+    }));
+
+    setRecipients(data);
+  }
+
   useEffect(() => {
-    async function loadRecipients() {
-      const response = await api.get('/recipients');
-
-      const data = response.data.map(recipient => ({
-        ...recipient,
-        address: `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`,
-      }));
-
-      setRecipients(data);
-    }
-
     loadRecipients();
   }, []);
 
   function handleAddRecipient() {
     history.push('/recipient');
+  }
+
+  async function handleDeleteRecipient(id) {
+    await api.delete(`/recipients/${id}`);
+    loadRecipients();
+    toast.success('Destinatário excluido com sucesso!');
   }
 
   return (
@@ -61,6 +68,7 @@ export default function Recipients({ history }) {
                   actions={actions}
                   target="/recipient"
                   object={recipient}
+                  callback={() => handleDeleteRecipient(recipient.id)}
                 />
               </td>
             </tr>
