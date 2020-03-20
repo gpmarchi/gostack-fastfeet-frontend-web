@@ -24,7 +24,8 @@ export default function Actions({ actions, target, object, callback }) {
   }
 
   async function handleDelete() {
-    const confirm = window.confirm('Deseja realmente excluir o registro?');
+    const remove = target ? 'excluir o registro' : 'cancelar a encomenda';
+    const confirm = window.confirm(`Deseja realmente ${remove}?`);
     if (confirm) {
       callback();
     }

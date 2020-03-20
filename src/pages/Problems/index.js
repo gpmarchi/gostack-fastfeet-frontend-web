@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
 
@@ -15,9 +16,13 @@ export default function Problems() {
 
       setDeliveryProblems(response.data);
     }
-
     loadDeliveryProblems();
   }, []);
+
+  async function handleCancelParcelByProblem(id) {
+    await api.delete(`/problems/${id}/delivery`);
+    toast.success('Encomenda cancelada com sucesso!');
+  }
 
   return (
     <>
@@ -38,7 +43,12 @@ export default function Problems() {
               <td>#{problem.parcel_id}</td>
               <td>{problem.description}</td>
               <td>
-                <Actions actions={actions} target="" object={problem} />
+                <Actions
+                  actions={actions}
+                  target=""
+                  object={problem}
+                  callback={() => handleCancelParcelByProblem(problem.id)}
+                />
               </td>
             </tr>
           ))}
