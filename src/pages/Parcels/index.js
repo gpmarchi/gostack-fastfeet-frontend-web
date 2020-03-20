@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
 import api from '../../services/api';
@@ -13,23 +14,29 @@ const actions = ['Visualizar', 'Editar', 'Excluir'];
 export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
 
+  async function loadParcels() {
+    const response = await api.get('/parcels');
+
+    const data = response.data.map(parcel => ({
+      ...parcel,
+      status: parcelStatus(parcel),
+    }));
+
+    setParcels(data);
+  }
+
   useEffect(() => {
-    async function loadParcels() {
-      const response = await api.get('/parcels');
-
-      const data = response.data.map(parcel => ({
-        ...parcel,
-        status: parcelStatus(parcel),
-      }));
-
-      setParcels(data);
-    }
-
     loadParcels();
   }, []);
 
   function handleAddParcel() {
     history.push('/parcel');
+  }
+
+  async function handleDeleteParcel(id) {
+    await api.delete(`/parcels/${id}`);
+    loadParcels();
+    toast.success('Encomenda excluida com sucesso!');
   }
 
   return (
@@ -82,7 +89,12 @@ export default function Parcels({ history }) {
                 </StatusPill>
               </td>
               <td>
-                <Actions actions={actions} target="/parcel" object={parcel} />
+                <Actions
+                  actions={actions}
+                  target="/parcel"
+                  object={parcel}
+                  callback={() => handleDeleteParcel(parcel.id)}
+                />
               </td>
             </tr>
           ))}
