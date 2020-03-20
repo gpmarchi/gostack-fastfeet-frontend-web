@@ -76,5 +76,5 @@ AvatarInput.propTypes = {
 };
 
 AvatarInput.defaultProps = {
-  deliveryman: {},
+  deliveryman: undefined,
 };
