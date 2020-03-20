@@ -8,12 +8,15 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
+import ViewModal from '../ViewModal';
+
 import history from '../../services/history';
 
 import { Container, MoreActions, ActionList, Action } from './styles';
 
 export default function Actions({ actions, target, object, callback }) {
   const [visible, setVisible] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   function handleToggleVisible() {
     setVisible(!visible);
@@ -41,7 +44,7 @@ export default function Actions({ actions, target, object, callback }) {
         <div>
           {actions.map(action =>
             action === 'Visualizar' ? (
-              <Action key={action} onClick={() => alert('visualizar')}>
+              <Action key={action} onClick={() => setOpenModal(true)}>
                 <MdVisibility size={15} color="#8E5BE8" />
                 {action}
               </Action>
@@ -59,6 +62,13 @@ export default function Actions({ actions, target, object, callback }) {
           )}
         </div>
       </ActionList>
+
+      <ViewModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        page={target}
+        object={object}
+      />
     </Container>
   );
 }
