@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MdAdd } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
 
@@ -11,18 +12,24 @@ const actions = ['Editar', 'Excluir'];
 export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
 
+  async function loadDeliverymen() {
+    const response = await api.get('/deliverymen');
+
+    setDeliverymen(response.data);
+  }
+
   useEffect(() => {
-    async function loadDeliverymen() {
-      const response = await api.get('/deliverymen');
-
-      setDeliverymen(response.data);
-    }
-
     loadDeliverymen();
   }, []);
 
   function handleAddDeliveryman() {
     history.push('/deliveryman');
+  }
+
+  async function handleDeleteDeliverymen(id) {
+    await api.delete(`/deliverymen/${id}`);
+    loadDeliverymen();
+    toast.success('Entregador excluido com sucesso!');
   }
 
   return (
@@ -69,6 +76,7 @@ export default function Deliverymen({ history }) {
                   actions={actions}
                   target="/deliveryman"
                   object={deliveryman}
+                  callback={() => handleDeleteDeliverymen(deliveryman.id)}
                 />
               </td>
             </tr>
