@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import PropTypes from 'prop-types';
 
@@ -8,22 +8,26 @@ export default function Pagination({ callback, totalPages }) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    callback(page);
-  }, [page]);
+    setPage(1);
+  }, [totalPages]);
 
-  function handleNextPage() {
+  useEffect(() => {
+    callback(page);
+  }, [page, callback]);
+
+  const handleNextPage = useCallback(() => {
     if (page < totalPages) {
       setPage(page + 1);
     } else {
       setPage(1);
     }
-  }
+  }, [page, totalPages]);
 
-  function handlePreviousPage() {
+  const handlePreviousPage = useCallback(() => {
     if (page > 1) {
       setPage(page - 1);
     }
-  }
+  }, [page]);
 
   return (
     <Container>

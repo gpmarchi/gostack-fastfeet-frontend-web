@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -15,22 +15,30 @@ const actions = ['Visualizar', 'Editar', 'Excluir'];
 export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState('');
 
-  async function loadParcels(page = 1) {
-    const response = await api.get(`/parcels?page=${page}`);
+  const loadParcels = useCallback(
+    async (page = 1) => {
+      const route = query
+        ? `/parcels?page=${page}&query=${query}`
+        : `/parcels?page=${page}`;
 
-    const data = response.data.parcels.map(parcel => ({
-      ...parcel,
-      status: parcelStatus(parcel),
-    }));
+      const response = await api.get(route);
 
-    setParcels(data);
-    setTotalPages(Number(response.data.totalPages));
-  }
+      const data = response.data.parcels.map(parcel => ({
+        ...parcel,
+        status: parcelStatus(parcel),
+      }));
+
+      setParcels(data);
+      setTotalPages(Number(response.data.totalPages));
+    },
+    [query]
+  );
 
   useEffect(() => {
     loadParcels();
-  }, []);
+  }, [query, loadParcels]);
 
   function handleAddParcel() {
     history.push('/parcel');
@@ -47,7 +55,11 @@ export default function Parcels({ history }) {
       <header>
         <h1>Gerenciando encomendas</h1>
         <div>
-          <input type="search" placeholder="Buscar por encomendas" />
+          <input
+            type="search"
+            placeholder="Buscar por encomendas"
+            onChange={e => setQuery(e.target.value)}
+          />
           <button type="button" onClick={handleAddParcel}>
             <MdAdd size={23} /> CADASTRAR
           </button>
