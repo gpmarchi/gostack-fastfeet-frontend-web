@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
@@ -26,6 +26,7 @@ const schema = Yup.object().shape({
 
 export default function ParcelForm({ history }) {
   const location = useLocation();
+  const formRef = useRef(null);
 
   let parcel;
 
@@ -90,7 +91,12 @@ export default function ParcelForm({ history }) {
   }
 
   return (
-    <Form schema={schema} initialData={parcel} onSubmit={handleSubmit}>
+    <Form
+      ref={formRef}
+      schema={schema}
+      initialData={parcel}
+      onSubmit={handleSubmit}
+    >
       <header>
         <div>
           <h1>Cadastro de encomendas</h1>

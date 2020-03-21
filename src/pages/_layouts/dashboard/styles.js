@@ -50,7 +50,7 @@ export const Wrapper = styled.div`
 
   table {
     min-width: 1200px;
-    margin: 0 auto 50px;
+    margin: 0 auto 10px;
     table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0 20px;

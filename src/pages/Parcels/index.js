@@ -7,22 +7,26 @@ import Actions from '../../components/Actions';
 import api from '../../services/api';
 import { parcelStatus } from '../../util/helper';
 
+import Pagination from '../../components/Pagination';
+
 import { StatusPill } from './styles';
 
 const actions = ['Visualizar', 'Editar', 'Excluir'];
 
 export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  async function loadParcels() {
-    const response = await api.get('/parcels');
+  async function loadParcels(page = 1) {
+    const response = await api.get(`/parcels?page=${page}`);
 
-    const data = response.data.map(parcel => ({
+    const data = response.data.parcels.map(parcel => ({
       ...parcel,
       status: parcelStatus(parcel),
     }));
 
     setParcels(data);
+    setTotalPages(Number(response.data.totalPages));
   }
 
   useEffect(() => {
@@ -100,6 +104,7 @@ export default function Parcels({ history }) {
           ))}
         </tbody>
       </table>
+      <Pagination callback={loadParcels} totalPages={totalPages} />
     </>
   );
 }
