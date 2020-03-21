@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
@@ -11,16 +11,16 @@ export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
-  async function loadDeliveryProblems(page = 1) {
+  const loadDeliveryProblems = useCallback(async (page = 1) => {
     const response = await api.get(`/delivery/problems?page${page}`);
 
     setDeliveryProblems(response.data.problems);
     setTotalPages(Number(response.data.totalPages));
-  }
+  }, []);
 
   useEffect(() => {
     loadDeliveryProblems();
-  }, []);
+  }, [loadDeliveryProblems]);
 
   async function handleCancelParcelByProblem(id) {
     await api.delete(`/problems/${id}/delivery`);
