@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { signOut } from '../../store/modules/auth/actions';
+import { changePage } from '../../store/modules/header/actions';
 
 import { Container, Navigation, NavLink, Logout } from './styles';
 
@@ -29,20 +30,11 @@ const pages = [
 export default function Header() {
   const dispatch = useDispatch();
 
-  const [activePage, setActivePage] = useState('/parcels');
+  const activePage = useSelector(state => state.header.activePage);
   const username = useSelector(state => state.auth.user.name);
 
-  useEffect(() => {
-    const currentPage = localStorage.getItem('fastfeet:activePage');
-
-    if (currentPage) {
-      setActivePage(currentPage);
-    }
-  }, []);
-
   function handlePageSelect(page) {
-    setActivePage(page);
-    localStorage.setItem('fastfeet:activePage', page);
+    dispatch(changePage(page));
   }
 
   function handleSignOut() {

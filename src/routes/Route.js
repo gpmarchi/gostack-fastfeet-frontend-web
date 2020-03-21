@@ -14,21 +14,18 @@ export default function RouteWrapper({
   ...rest
 }) {
   const signed = useSelector(state => state.auth.signed);
+  const page = useSelector(state => state.header.activePage);
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
   if (signed && !isPrivate) {
-    const page = localStorage.getItem('fastfeet:activePage');
-    return <Redirect to={page || '/parcels'} />;
+    return <Redirect to={page} />;
   }
 
   if (signed) {
     const Layout = isList ? DashboardLayout : FormLayout;
-
-    const { path } = rest;
-    localStorage.setItem('fastfeet:activePage', path);
 
     return (
       <Route
