@@ -121,5 +121,5 @@ TransitionsModal.propTypes = {
   openModal: PropTypes.bool.isRequired,
   setOpenModal: PropTypes.func.isRequired,
   page: PropTypes.string.isRequired,
-  object: PropTypes.shape.isRequired,
+  object: PropTypes.shape().isRequired,
 };
