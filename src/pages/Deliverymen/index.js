@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { MdAdd } from 'react-icons/md';
 import { toast } from 'react-toastify';
@@ -12,17 +12,25 @@ const actions = ['Editar', 'Excluir'];
 export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState('');
 
-  async function loadDeliverymen(page = 1) {
-    const response = await api.get(`/deliverymen?page=${page}`);
+  const loadDeliverymen = useCallback(
+    async (page = 1) => {
+      const route = query
+        ? `/deliverymen?page=${page}&query=${query}`
+        : `/deliverymen?page=${page}`;
 
-    setDeliverymen(response.data.deliverymen);
-    setTotalPages(Number(response.data.totalPages));
-  }
+      const response = await api.get(route);
+
+      setDeliverymen(response.data.deliverymen);
+      setTotalPages(Number(response.data.totalPages));
+    },
+    [query]
+  );
 
   useEffect(() => {
     loadDeliverymen();
-  }, []);
+  }, [query, loadDeliverymen]);
 
   function handleAddDeliveryman() {
     history.push('/deliveryman');
@@ -39,7 +47,11 @@ export default function Deliverymen({ history }) {
       <header>
         <h1>Gerenciando entregadores</h1>
         <div>
-          <input type="search" placeholder="Buscar por entregadores" />
+          <input
+            type="search"
+            placeholder="Buscar por entregadores"
+            onChange={e => setQuery(e.target.value)}
+          />
           <button type="button" onClick={handleAddDeliveryman}>
             <MdAdd size={23} /> CADASTRAR
           </button>

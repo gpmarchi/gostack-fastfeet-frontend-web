@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -12,22 +12,30 @@ const actions = ['Editar', 'Excluir'];
 export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState('');
 
-  async function loadRecipients(page = 1) {
-    const response = await api.get(`/recipients?page=${page}`);
+  const loadRecipients = useCallback(
+    async (page = 1) => {
+      const route = query
+        ? `/recipients?page=${page}&query=${query}`
+        : `/recipients?page=${page}`;
 
-    const data = response.data.recipients.map(recipient => ({
-      ...recipient,
-      address: `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`,
-    }));
+      const response = await api.get(route);
 
-    setRecipients(data);
-    setTotalPages(Number(response.data.totalPages));
-  }
+      const data = response.data.recipients.map(recipient => ({
+        ...recipient,
+        address: `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`,
+      }));
+
+      setRecipients(data);
+      setTotalPages(Number(response.data.totalPages));
+    },
+    [query]
+  );
 
   useEffect(() => {
     loadRecipients();
-  }, []);
+  }, [query, loadRecipients]);
 
   function handleAddRecipient() {
     history.push('/recipient');
@@ -44,7 +52,11 @@ export default function Recipients({ history }) {
       <header>
         <h1>Gerenciando destinatários</h1>
         <div>
-          <input type="search" placeholder="Buscar por destinatários" />
+          <input
+            type="search"
+            placeholder="Buscar por destinatários"
+            onChange={e => setQuery(e.target.value)}
+          />
           <button type="button" onClick={handleAddRecipient}>
             <MdAdd size={23} /> CADASTRAR
           </button>
