@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import Actions from '../../components/Actions';
 import api from '../../services/api';
 import { parcelStatus } from '../../util/helper';
-
 import Pagination from '../../components/Pagination';
 
 import { StatusPill } from './styles';

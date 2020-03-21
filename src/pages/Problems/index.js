@@ -2,20 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
-
 import api from '../../services/api';
+import Pagination from '../../components/Pagination';
 
 const actions = ['Visualizar', 'Cancelar Encomenda'];
 
 export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+
+  async function loadDeliveryProblems(page = 1) {
+    const response = await api.get(`/delivery/problems?page${page}`);
+
+    setDeliveryProblems(response.data.problems);
+    setTotalPages(Number(response.data.totalPages));
+  }
 
   useEffect(() => {
-    async function loadDeliveryProblems() {
-      const response = await api.get('/delivery/problems');
-
-      setDeliveryProblems(response.data);
-    }
     loadDeliveryProblems();
   }, []);
 
@@ -54,6 +57,7 @@ export default function Problems() {
           ))}
         </tbody>
       </table>
+      <Pagination callback={loadDeliveryProblems} totalPages={totalPages} />
     </>
   );
 }

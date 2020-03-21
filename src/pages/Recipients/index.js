@@ -4,23 +4,25 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
-
 import api from '../../services/api';
+import Pagination from '../../components/Pagination';
 
 const actions = ['Editar', 'Excluir'];
 
 export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  async function loadRecipients() {
-    const response = await api.get('/recipients');
+  async function loadRecipients(page = 1) {
+    const response = await api.get(`/recipients?page=${page}`);
 
-    const data = response.data.map(recipient => ({
+    const data = response.data.recipients.map(recipient => ({
       ...recipient,
       address: `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`,
     }));
 
     setRecipients(data);
+    setTotalPages(Number(response.data.totalPages));
   }
 
   useEffect(() => {
@@ -75,6 +77,7 @@ export default function Recipients({ history }) {
           ))}
         </tbody>
       </table>
+      <Pagination callback={loadRecipients} totalPages={totalPages} />
     </>
   );
 }

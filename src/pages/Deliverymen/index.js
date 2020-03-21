@@ -4,18 +4,20 @@ import { MdAdd } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
-
 import api from '../../services/api';
+import Pagination from '../../components/Pagination';
 
 const actions = ['Editar', 'Excluir'];
 
 export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  async function loadDeliverymen() {
-    const response = await api.get('/deliverymen');
+  async function loadDeliverymen(page = 1) {
+    const response = await api.get(`/deliverymen?page=${page}`);
 
-    setDeliverymen(response.data);
+    setDeliverymen(response.data.deliverymen);
+    setTotalPages(Number(response.data.totalPages));
   }
 
   useEffect(() => {
@@ -83,6 +85,7 @@ export default function Deliverymen({ history }) {
           ))}
         </tbody>
       </table>
+      <Pagination callback={loadDeliverymen} totalPages={totalPages} />
     </>
   );
 }
