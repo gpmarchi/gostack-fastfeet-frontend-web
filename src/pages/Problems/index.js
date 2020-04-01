@@ -6,13 +6,16 @@ import api from '../../services/api';
 import Pagination from '../../components/Pagination';
 
 const actions = ['Visualizar', 'Cancelar Encomenda'];
+const limit = 6;
 
 export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
   const loadDeliveryProblems = useCallback(async (page = 1) => {
-    const response = await api.get('/delivery/problems', { params: { page } });
+    const response = await api.get('/delivery/problems', {
+      params: { page, limit },
+    });
 
     setDeliveryProblems(response.data.problems);
     setTotalPages(Number(response.data.totalPages));

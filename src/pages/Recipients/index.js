@@ -8,6 +8,7 @@ import api from '../../services/api';
 import Pagination from '../../components/Pagination';
 
 const actions = ['Editar', 'Excluir'];
+const limit = 6;
 
 export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
@@ -17,7 +18,7 @@ export default function Recipients({ history }) {
   const loadRecipients = useCallback(
     async (page = 1) => {
       const response = await api.get('/recipients', {
-        params: { page, query },
+        params: { page, limit, query },
       });
 
       const data = response.data.recipients.map(recipient => ({

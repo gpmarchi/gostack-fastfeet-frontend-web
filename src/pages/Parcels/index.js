@@ -11,6 +11,7 @@ import Pagination from '../../components/Pagination';
 import { StatusPill } from './styles';
 
 const actions = ['Visualizar', 'Editar', 'Excluir'];
+const limit = 6;
 
 export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
@@ -19,7 +20,9 @@ export default function Parcels({ history }) {
 
   const loadParcels = useCallback(
     async (page = 1) => {
-      const response = await api.get('/parcels', { params: { page, query } });
+      const response = await api.get('/parcels', {
+        params: { page, limit, query },
+      });
 
       const data = response.data.parcels.map(parcel => ({
         ...parcel,

@@ -8,6 +8,7 @@ import api from '../../services/api';
 import Pagination from '../../components/Pagination';
 
 const actions = ['Editar', 'Excluir'];
+const limit = 6;
 
 export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
@@ -17,7 +18,7 @@ export default function Deliverymen({ history }) {
   const loadDeliverymen = useCallback(
     async (page = 1) => {
       const response = await api.get('/deliverymen', {
-        params: { page, query },
+        params: { page, limit, query },
       });
 
       setDeliverymen(response.data.deliverymen);
