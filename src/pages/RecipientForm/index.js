@@ -4,6 +4,7 @@ import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { useLocation } from 'react-router-dom';
+import InputMask from './InputMask';
 
 import api from '../../services/api';
 
@@ -91,7 +92,7 @@ export default function RecipientForm({ history }) {
               <Input type="text" name="state" />
             </td>
             <td>
-              <Input type="text" name="zipcode" />
+              <InputMask type="text" name="zipcode" mask="99999-999" />
             </td>
           </tr>
         </tbody>
