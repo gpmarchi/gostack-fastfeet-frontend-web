@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { MdAdd } from 'react-icons/md';
+import { MdSearch, MdAdd } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
@@ -46,11 +46,14 @@ export default function Deliverymen({ history }) {
       <header>
         <h1>Gerenciando entregadores</h1>
         <div>
-          <input
-            type="search"
-            placeholder="Buscar por entregadores"
-            onChange={e => setQuery(e.target.value)}
-          />
+          <div id="search">
+            <MdSearch size={20} color="#999" />
+            <input
+              type="search"
+              placeholder="Buscar por entregadores"
+              onChange={e => setQuery(e.target.value)}
+            />
+          </div>
           <button type="button" onClick={handleAddDeliveryman}>
             <MdAdd size={23} /> CADASTRAR
           </button>

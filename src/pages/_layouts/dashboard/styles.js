@@ -38,12 +38,32 @@ export const Wrapper = styled.div`
       justify-content: space-between;
       align-items: center;
 
-      input {
-        height: 36px;
-        border-radius: 4px;
+      div#search {
+        margin: 0;
+        height: 40px;
         border: 1px solid #ddd;
-        color: #999;
-        padding: 10px 20px;
+        border-radius: 4px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin: 10px;
+        }
+
+        input {
+          height: 36px;
+          border: 0;
+          color: #999;
+          padding: 10px 10px 10px 0;
+          background: transparent;
+          font-size: 14px;
+
+          &::placeholder {
+            color: #999;
+            font-size: 14px;
+          }
+        }
       }
     }
   }

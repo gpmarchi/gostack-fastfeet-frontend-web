@@ -54,11 +54,14 @@ export default function Parcels({ history }) {
       <header>
         <h1>Gerenciando encomendas</h1>
         <div>
-          <input
-            type="search"
-            placeholder="Buscar por encomendas"
-            onChange={e => setQuery(e.target.value)}
-          />
+          <div id="search">
+            <MdSearch size={20} color="#999" />
+            <input
+              type="search"
+              placeholder="Buscar por encomendas"
+              onChange={e => setQuery(e.target.value)}
+            />
+          </div>
           <button type="button" onClick={handleAddParcel}>
             <MdAdd size={23} /> CADASTRAR
           </button>
