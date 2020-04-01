@@ -12,7 +12,7 @@ export default function Problems() {
   const [totalPages, setTotalPages] = useState(0);
 
   const loadDeliveryProblems = useCallback(async (page = 1) => {
-    const response = await api.get(`/delivery/problems?page${page}`);
+    const response = await api.get('/delivery/problems', { params: { page } });
 
     setDeliveryProblems(response.data.problems);
     setTotalPages(Number(response.data.totalPages));

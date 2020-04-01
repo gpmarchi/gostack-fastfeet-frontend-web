@@ -16,11 +16,9 @@ export default function Deliverymen({ history }) {
 
   const loadDeliverymen = useCallback(
     async (page = 1) => {
-      const route = query
-        ? `/deliverymen?page=${page}&query=${query}`
-        : `/deliverymen?page=${page}`;
-
-      const response = await api.get(route);
+      const response = await api.get('/deliverymen', {
+        params: { page, query },
+      });
 
       setDeliverymen(response.data.deliverymen);
       setTotalPages(Number(response.data.totalPages));

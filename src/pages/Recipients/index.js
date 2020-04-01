@@ -16,11 +16,9 @@ export default function Recipients({ history }) {
 
   const loadRecipients = useCallback(
     async (page = 1) => {
-      const route = query
-        ? `/recipients?page=${page}&query=${query}`
-        : `/recipients?page=${page}`;
-
-      const response = await api.get(route);
+      const response = await api.get('/recipients', {
+        params: { page, query },
+      });
 
       const data = response.data.recipients.map(recipient => ({
         ...recipient,

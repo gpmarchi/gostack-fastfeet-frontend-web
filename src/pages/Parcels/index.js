@@ -19,11 +19,7 @@ export default function Parcels({ history }) {
 
   const loadParcels = useCallback(
     async (page = 1) => {
-      const route = query
-        ? `/parcels?page=${page}&query=${query}`
-        : `/parcels?page=${page}`;
-
-      const response = await api.get(route);
+      const response = await api.get('/parcels', { params: { page, query } });
 
       const data = response.data.parcels.map(parcel => ({
         ...parcel,
