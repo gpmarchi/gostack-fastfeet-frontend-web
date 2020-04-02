@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { MdWarning } from 'react-icons/md';
 
 import Actions from '../../components/Actions';
 import api from '../../services/api';
@@ -39,32 +40,41 @@ export default function Problems() {
       <header>
         <h1>Problemas na entrega</h1>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>Encomenda</th>
-            <th>Problema</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deliveryProblems.map(problem => (
-            <tr key={problem.id}>
-              <td>#{problem.parcel_id}</td>
-              <td>{problem.description}</td>
-              <td>
-                <Actions
-                  actions={actions}
-                  target=""
-                  object={problem}
-                  callback={() => handleCancelParcelByProblem(problem.id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination callback={loadDeliveryProblems} totalPages={totalPages} />
+      {deliveryProblems.length > 0 ? (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>Encomenda</th>
+                <th>Problema</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {deliveryProblems.map(problem => (
+                <tr key={problem.id}>
+                  <td>#{problem.parcel_id}</td>
+                  <td>{problem.description}</td>
+                  <td>
+                    <Actions
+                      actions={actions}
+                      target=""
+                      object={problem}
+                      callback={() => handleCancelParcelByProblem(problem.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination callback={loadDeliveryProblems} totalPages={totalPages} />
+        </>
+      ) : (
+        <div id="empty-list">
+          <MdWarning size={40} color="#999" />
+          <p>Não existem registros a exibir</p>
+        </div>
+      )}
     </>
   );
 }

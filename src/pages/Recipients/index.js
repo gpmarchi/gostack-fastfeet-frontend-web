@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MdSearch, MdAdd } from 'react-icons/md';
+import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
@@ -64,34 +64,43 @@ export default function Recipients({ history }) {
           </button>
         </div>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recipients.map(recipient => (
-            <tr key={recipient.id}>
-              <td>#{recipient.id}</td>
-              <td>{recipient.name}</td>
-              <td>{recipient.address}</td>
-              <td>
-                <Actions
-                  actions={actions}
-                  target="/recipient"
-                  object={recipient}
-                  callback={() => handleDeleteRecipient(recipient.id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination callback={loadRecipients} totalPages={totalPages} />
+      {recipients.length > 0 ? (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recipients.map(recipient => (
+                <tr key={recipient.id}>
+                  <td>#{recipient.id}</td>
+                  <td>{recipient.name}</td>
+                  <td>{recipient.address}</td>
+                  <td>
+                    <Actions
+                      actions={actions}
+                      target="/recipient"
+                      object={recipient}
+                      callback={() => handleDeleteRecipient(recipient.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination callback={loadRecipients} totalPages={totalPages} />
+        </>
+      ) : (
+        <div id="empty-list">
+          <MdWarning size={40} color="#999" />
+          <p>Não existem registros a exibir</p>
+        </div>
+      )}
     </>
   );
 }

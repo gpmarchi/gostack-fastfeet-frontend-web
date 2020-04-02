@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MdSearch, MdAdd } from 'react-icons/md';
+import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
@@ -71,57 +71,67 @@ export default function Parcels({ history }) {
           </button>
         </div>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Destinatário</th>
-            <th>Entregador</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parcels.map(parcel => (
-            <tr key={parcel.id}>
-              <td>#{parcel.id}</td>
-              <td>{parcel.recipient.name}</td>
-              <td>
-                <div>
-                  <img
-                    src={
-                      parcel.deliveryman.url
-                        ? parcel.deliveryman.url
-                        : 'https://api.adorable.io/avatars/35/abott@adorable.png'
-                    }
-                    alt={parcel.deliveryman.name}
-                  />
-                  {parcel.deliveryman.name}
-                </div>
-              </td>
-              <td>{parcel.recipient.city}</td>
-              <td>{parcel.recipient.state}</td>
-              <td>
-                <StatusPill status={parcel.status.id}>
-                  <div />
-                  {parcel.status.name}
-                </StatusPill>
-              </td>
-              <td>
-                <Actions
-                  actions={actions}
-                  target="/parcel"
-                  object={parcel}
-                  callback={() => handleDeleteParcel(parcel.id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination callback={loadParcels} totalPages={totalPages} />
+      {parcels.length > 0 ? (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Destinatário</th>
+                <th>Entregador</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parcels.map(parcel => (
+                <tr key={parcel.id}>
+                  <td>#{parcel.id}</td>
+                  <td>{parcel.recipient.name}</td>
+                  <td>
+                    <div>
+                      <img
+                        src={
+                          parcel.deliveryman.url
+                            ? parcel.deliveryman.url
+                            : 'https://api.adorable.io/avatars/35/abott@adorable.png'
+                        }
+                        alt={parcel.deliveryman.name}
+                      />
+                      {parcel.deliveryman.name}
+                    </div>
+                  </td>
+                  <td>{parcel.recipient.city}</td>
+                  <td>{parcel.recipient.state}</td>
+                  <td>
+                    <StatusPill status={parcel.status.id}>
+                      <div />
+                      {parcel.status.name}
+                    </StatusPill>
+                  </td>
+                  <td>
+                    <Actions
+                      actions={actions}
+                      target="/parcel"
+                      object={parcel}
+                      callback={() => handleDeleteParcel(parcel.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Pagination callback={loadParcels} totalPages={totalPages} />
+        </>
+      ) : (
+        <div id="empty-list">
+          <MdWarning size={40} color="#999" />
+          <p>Não existem registros a exibir</p>
+        </div>
+      )}
     </>
   );
 }

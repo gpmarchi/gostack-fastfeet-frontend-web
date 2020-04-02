@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { MdSearch, MdAdd } from 'react-icons/md';
+import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
@@ -59,47 +59,56 @@ export default function Deliverymen({ history }) {
           </button>
         </div>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Foto</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deliverymen.map(deliveryman => (
-            <tr key={deliveryman.id}>
-              <td>#{deliveryman.id}</td>
-              <td>
-                <div>
-                  <img
-                    src={
-                      deliveryman.avatar
-                        ? deliveryman.avatar.url
-                        : 'https://api.adorable.io/avatars/35/abott@adorable.png'
-                    }
-                    alt={deliveryman.name}
-                  />
-                </div>
-              </td>
-              <td>{deliveryman.name}</td>
-              <td>{deliveryman.email}</td>
-              <td>
-                <Actions
-                  actions={actions}
-                  target="/deliveryman"
-                  object={deliveryman}
-                  callback={() => handleDeleteDeliverymen(deliveryman.id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination callback={loadDeliverymen} totalPages={totalPages} />
+      {deliverymen.length > 0 ? (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {deliverymen.map(deliveryman => (
+                <tr key={deliveryman.id}>
+                  <td>#{deliveryman.id}</td>
+                  <td>
+                    <div>
+                      <img
+                        src={
+                          deliveryman.avatar
+                            ? deliveryman.avatar.url
+                            : 'https://api.adorable.io/avatars/35/abott@adorable.png'
+                        }
+                        alt={deliveryman.name}
+                      />
+                    </div>
+                  </td>
+                  <td>{deliveryman.name}</td>
+                  <td>{deliveryman.email}</td>
+                  <td>
+                    <Actions
+                      actions={actions}
+                      target="/deliveryman"
+                      object={deliveryman}
+                      callback={() => handleDeleteDeliverymen(deliveryman.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination callback={loadDeliverymen} totalPages={totalPages} />
+        </>
+      ) : (
+        <div id="empty-list">
+          <MdWarning size={40} color="#999" />
+          <p>Não existem registros a exibir</p>
+        </div>
+      )}
     </>
   );
 }

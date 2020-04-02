@@ -68,6 +68,21 @@ export const Wrapper = styled.div`
     }
   }
 
+  div#empty-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+
+    p {
+      margin-left: 20px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #999;
+    }
+  }
+
   table {
     min-width: 1200px;
     margin: 0 auto 10px;
