@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 export const Wrapper = styled.div`
   min-height: 100%;
@@ -80,6 +89,12 @@ export const Wrapper = styled.div`
       font-weight: bold;
       font-size: 20px;
       color: #999;
+    }
+
+    span {
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
     }
   }
 

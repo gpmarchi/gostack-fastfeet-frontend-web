@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdWarning } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 
 import Actions from '../../components/Actions';
 import api from '../../services/api';
@@ -12,14 +13,18 @@ const limit = 6;
 export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const loadDeliveryProblems = useCallback(async (page = 1) => {
+    setLoading(true);
+
     const response = await api.get('/delivery/problems', {
       params: { page, limit },
     });
 
     setDeliveryProblems(response.data.problems);
     setTotalPages(Number(response.data.totalPages));
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -71,8 +76,16 @@ export default function Problems() {
         </>
       ) : (
         <div id="empty-list">
-          <MdWarning size={40} color="#999" />
-          <p>Não existem registros a exibir</p>
+          {loading ? (
+            <span>
+              <FaSpinner size={40} color="#999" />
+            </span>
+          ) : (
+            <>
+              <MdWarning size={40} color="#999" />
+              <p>Não existem registros a exibir</p>
+            </>
+          )}
         </div>
       )}
     </>

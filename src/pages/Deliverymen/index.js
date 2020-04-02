@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import Actions from '../../components/Actions';
@@ -14,15 +15,19 @@ export default function Deliverymen({ history }) {
   const [deliverymen, setDeliverymen] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const loadDeliverymen = useCallback(
     async (page = 1) => {
+      setLoading(true);
+
       const response = await api.get('/deliverymen', {
         params: { page, limit, query },
       });
 
       setDeliverymen(response.data.deliverymen);
       setTotalPages(Number(response.data.totalPages));
+      setLoading(false);
     },
     [query]
   );
@@ -105,8 +110,16 @@ export default function Deliverymen({ history }) {
         </>
       ) : (
         <div id="empty-list">
-          <MdWarning size={40} color="#999" />
-          <p>Não existem registros a exibir</p>
+          {loading ? (
+            <span>
+              <FaSpinner size={40} color="#999" />
+            </span>
+          ) : (
+            <>
+              <MdWarning size={40} color="#999" />
+              <p>Não existem registros a exibir</p>
+            </>
+          )}
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
@@ -17,9 +18,12 @@ export default function Parcels({ history }) {
   const [parcels, setParcels] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const loadParcels = useCallback(
     async (page = 1) => {
+      setLoading(true);
+
       const response = await api.get('/parcels', {
         params: { page, limit, query },
       });
@@ -31,6 +35,7 @@ export default function Parcels({ history }) {
 
       setParcels(data);
       setTotalPages(Number(response.data.totalPages));
+      setLoading(false);
     },
     [query]
   );
@@ -128,8 +133,16 @@ export default function Parcels({ history }) {
         </>
       ) : (
         <div id="empty-list">
-          <MdWarning size={40} color="#999" />
-          <p>Não existem registros a exibir</p>
+          {loading ? (
+            <span>
+              <FaSpinner size={40} color="#999" />
+            </span>
+          ) : (
+            <>
+              <MdWarning size={40} color="#999" />
+              <p>Não existem registros a exibir</p>
+            </>
+          )}
         </div>
       )}
     </>

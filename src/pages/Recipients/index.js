@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MdSearch, MdAdd, MdWarning } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
@@ -14,9 +15,12 @@ export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const loadRecipients = useCallback(
     async (page = 1) => {
+      setLoading(true);
+
       const response = await api.get('/recipients', {
         params: { page, limit, query },
       });
@@ -28,6 +32,7 @@ export default function Recipients({ history }) {
 
       setRecipients(data);
       setTotalPages(Number(response.data.totalPages));
+      setLoading(false);
     },
     [query]
   );
@@ -97,8 +102,16 @@ export default function Recipients({ history }) {
         </>
       ) : (
         <div id="empty-list">
-          <MdWarning size={40} color="#999" />
-          <p>Não existem registros a exibir</p>
+          {loading ? (
+            <span>
+              <FaSpinner size={40} color="#999" />
+            </span>
+          ) : (
+            <>
+              <MdWarning size={40} color="#999" />
+              <p>Não existem registros a exibir</p>
+            </>
+          )}
         </div>
       )}
     </>
