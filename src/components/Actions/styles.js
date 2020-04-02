@@ -19,8 +19,8 @@ export const ActionList = styled.aside`
   padding: 10px 10px;
   background: #fff;
   border-radius: 10px;
-  border: 1px solid #00000026;
-  box-shadow: 0px 0px 2px #00000026;
+  border: 3px solid #ddd;
+  /* box-shadow: 0px 0px 2px #00000026; */
   z-index: 1;
 
   &::before {
@@ -33,8 +33,21 @@ export const ActionList = styled.aside`
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-bottom: 10px solid #fff;
-    text-shadow: 0 2px 2px rgba(255, 255, 255, 0.7),
-      0 10px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 10px);
+    top: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #ddd;
+    border-left: 10px solid #ddd;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    transform: rotate(45deg);
+    z-index: -1;
   }
 
   div {
