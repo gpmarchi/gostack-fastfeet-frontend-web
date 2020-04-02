@@ -4,6 +4,7 @@ import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import AvatarInput from './AvatarInput';
 
@@ -14,7 +15,9 @@ import { Content } from './styles';
 const schema = Yup.object().shape({
   avatar_id: Yup.number(),
   name: Yup.string().required('O nome é obrigatório'),
-  email: Yup.string().required('O email é obrigatório'),
+  email: Yup.string()
+    .email('O email deve ser um endereço válido')
+    .required('O email é obrigatório'),
 });
 
 export default function DeliverymanForm({ history }) {
@@ -27,21 +30,25 @@ export default function DeliverymanForm({ history }) {
   }
 
   async function handleSubmit({ name, email, avatar_id }) {
-    if (deliveryman) {
-      await api.patch(`/deliverymen/${deliveryman.id}`, {
-        name,
-        email,
-        avatar_id,
-      });
-    } else {
-      await api.post('/deliverymen', {
-        name,
-        email,
-        avatar_id,
-      });
-    }
+    try {
+      if (deliveryman) {
+        await api.patch(`/deliverymen/${deliveryman.id}`, {
+          name,
+          email,
+          avatar_id,
+        });
+      } else {
+        await api.post('/deliverymen', {
+          name,
+          email,
+          avatar_id,
+        });
+      }
 
-    history.push('/deliverymen');
+      history.push('/deliverymen');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   return (

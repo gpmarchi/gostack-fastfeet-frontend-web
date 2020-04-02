@@ -44,9 +44,13 @@ export default function Parcels({ history }) {
   }
 
   async function handleDeleteParcel(id) {
-    await api.delete(`/parcels/${id}`);
-    loadParcels();
-    toast.success('Encomenda excluida com sucesso!');
+    try {
+      await api.delete(`/parcels/${id}`);
+      loadParcels();
+      toast.success('Encomenda excluida com sucesso!');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   return (

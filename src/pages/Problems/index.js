@@ -26,8 +26,12 @@ export default function Problems() {
   }, [loadDeliveryProblems]);
 
   async function handleCancelParcelByProblem(id) {
-    await api.delete(`/problems/${id}/delivery`);
-    toast.success('Encomenda cancelada com sucesso!');
+    try {
+      await api.delete(`/problems/${id}/delivery`);
+      toast.success('Encomenda cancelada com sucesso!');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   return (
