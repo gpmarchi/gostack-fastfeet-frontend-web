@@ -3,6 +3,39 @@ import Select from 'react-select/async';
 import { useField } from '@rocketseat/unform';
 import PropTypes from 'prop-types';
 
+const customStyles = {
+  menu: provided => ({
+    ...provided,
+    color: '#999',
+  }),
+
+  control: provided => ({
+    ...provided,
+    height: 45,
+    border: '1px solid #DDD',
+  }),
+
+  dropdownIndicator: provided => ({
+    ...provided,
+    color: '#DDD',
+  }),
+
+  indicatorSeparator: provided => ({
+    ...provided,
+    border: '0.5px solid #DDD',
+  }),
+
+  placeholder: provided => ({
+    ...provided,
+    color: '#999',
+  }),
+
+  singleValue: provided => ({
+    ...provided,
+    color: '#999',
+  }),
+};
+
 const AsyncSelect = ({ name, ...rest }) => {
   const selectRef = useRef(null);
   const { fieldName, defaultValue, registerField } = useField(name);
@@ -31,6 +64,8 @@ const AsyncSelect = ({ name, ...rest }) => {
 
   return (
     <Select
+      styles={customStyles}
+      placeholder="Selecione..."
       cacheOptions
       defaultValue={defaultValue}
       ref={selectRef}
