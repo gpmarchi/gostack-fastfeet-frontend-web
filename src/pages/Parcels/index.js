@@ -99,7 +99,7 @@ export default function Parcels({ history }) {
                     <div>
                       <img
                         src={
-                          parcel.deliveryman.avatar.url
+                          parcel.deliveryman.avatar
                             ? parcel.deliveryman.avatar.url
                             : 'https://api.adorable.io/avatars/35/abott@adorable.png'
                         }
