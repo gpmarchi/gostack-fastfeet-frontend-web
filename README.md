@@ -2,6 +2,10 @@
 
 Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 da Rocketseat. Front-end desenvolvido em ReactJS para uma aplicação de transportadoras controlando as encomendas, entregadores, destinatários e problemas nas entregas.
 
+<h1 align="center">
+    <img alt="FastFeet" title="FastFeet" src=".github/fastfeet-web.gif" />
+</h1>
+
 ## Tecnologias e libs utilizadas
 
 Abaixo seguem as tecnologias utilizadas no desenvolvimento do projeto:
