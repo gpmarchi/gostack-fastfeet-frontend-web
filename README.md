@@ -39,6 +39,12 @@ Rodar o comando abaixo para instalar as dependências:
 
     yarn
 
+## Configuração
+
+Será necessário configurar a variável de ambiente necessária para acessar a API. Para isso criar um arquivo chamado `.env` na raiz do projeto e informar a variável `REACT_APP_API_BASE_URL` com o endereço onde o servidor da API estiver rodando.
+
+`REACT_APP_API_BASE_URL=http://<endereço ip>:<porta>`
+
 ## Rodando o projeto
 
 A partir desse momento o ambiente já está preparado para rodarmos a front-end. Para iniciar o servidor de desenvolvimento rodar o comando:
