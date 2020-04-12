@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import api from '../../services/api';
 import { filterSelect } from '../../util/helper';
@@ -26,7 +27,6 @@ const schema = Yup.object().shape({
 
 export default function ParcelForm({ history }) {
   const location = useLocation();
-  const formRef = useRef(null);
 
   let parcel;
 
@@ -51,21 +51,25 @@ export default function ParcelForm({ history }) {
   }
 
   async function handleSubmit({ recipient, deliveryman, product }) {
-    if (parcel) {
-      await api.patch(`/parcels/${parcel.id}`, {
-        recipient_id: recipient.value,
-        deliveryman_id: deliveryman.value,
-        product,
-      });
-    } else {
-      await api.post('/parcels', {
-        recipient_id: recipient.value,
-        deliveryman_id: deliveryman.value,
-        product,
-      });
-    }
+    try {
+      if (parcel) {
+        await api.patch(`/parcels/${parcel.id}`, {
+          recipient_id: recipient.value,
+          deliveryman_id: deliveryman.value,
+          product,
+        });
+      } else {
+        await api.post('/parcels', {
+          recipient_id: recipient.value,
+          deliveryman_id: deliveryman.value,
+          product,
+        });
+      }
 
-    history.push('/parcels');
+      history.push('/parcels');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   async function loadRecipients(inputValue) {
@@ -91,12 +95,7 @@ export default function ParcelForm({ history }) {
   }
 
   return (
-    <Form
-      ref={formRef}
-      schema={schema}
-      initialData={parcel}
-      onSubmit={handleSubmit}
-    >
+    <Form schema={schema} initialData={parcel} onSubmit={handleSubmit}>
       <header>
         <div>
           <h1>Cadastro de encomendas</h1>
