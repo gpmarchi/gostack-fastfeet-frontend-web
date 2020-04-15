@@ -31,7 +31,7 @@ Também será necessário que o back-end da aplicação esteja rodando para que 
 
 ## Instalação
 
-Para instalar o projeto localmente na sua máquina, clonar o repositório:
+Para instalar o projeto localmente na sua máquina, clonar o repositório (caso tenha clonado o projeto pai `gostack-fastfeet`, não será necessário rodar o comando abaixo pois os arquivos já estarão em sua máquina dentro da pasta frontend):
 
     git clone https://github.com/gpmarchi/gostack-fastfeet-frontend-web.git && cd gostack-fastfeet-frontend-web
 
