@@ -41,7 +41,7 @@ Rodar o comando abaixo para instalar as dependências:
 
 ## Configuração
 
-Será necessário configurar a variável de ambiente necessária para acessar a API. Para isso criar um arquivo chamado `.env` na raiz do projeto e informar a variável `REACT_APP_API_BASE_URL` com o endereço onde o servidor da API estiver rodando.
+Será necessário configurar a variável de ambiente necessária para acessar a API. Para isso criar um arquivo chamado `.env` na raiz do projeto (utilizar como exemplo o arquivo .env.example também presente na raiz do projeto) e informar a variável `REACT_APP_API_BASE_URL` com o endereço onde o servidor da API estiver rodando.
 
     REACT_APP_API_BASE_URL=http://<endereço ip>:<porta>
 
